@@ -49,9 +49,9 @@ A full-featured, production-ready e-commerce web application built with the MERN
 
 ```
 mern-ecommerce-app/
-├── client/                 # React frontend (src/)
-│   ├── package.json           # Dependencies and scripts
-│   ├── components/         # Reusable UI components
+├── client/                # React frontend (src/)
+│   ├── package.json       # Dependencies and scripts
+│   ├── components/        # Reusable UI components
 │   │   ├── Layout/        # Header, Footer, Layout components
 │   │   └── Products/      # Product-related components
 │   ├── pages/             # Page components
@@ -64,9 +64,9 @@ mern-ecommerce-app/
 │   ├── models/            # Database configuration
 │   ├── middleware/        # Authentication and other middleware
 │   ├── routes/            # API routes
-│   ├── package.json           # Dependencies and scripts
+│   ├── package.json       # Dependencies and scripts
 │   └── seeders/           # Database seeding scripts
-└── README.md             # Project documentation
+└── README.md              # Project documentation
 ```
 
 ## 🚀 Getting Started
@@ -163,7 +163,7 @@ The application uses Redux Toolkit for state management with the following slice
 
 ### Database Schema
 
-The application uses SQLite for local development with the following main tables:
+The application uses MongoDB for local development with the following main tables inside models:
 
 - **users**: User accounts and profiles
 - **categories**: Product categories
@@ -227,7 +227,7 @@ Run the seeder with:
 npm run seed
 ```
 
-## 🌐 Deployment Guide
+## 🌐 Deployment Guide (NOTE: NOT YET DEPLOYED)
 
 ### Frontend Deployment (Vercel)
 
@@ -340,7 +340,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For support and questions:
 
 - Create an issue in the GitHub repository
-- Email: support@shophub.com
+- Email: luitelsaurav627@gmail.com
 - Documentation: [Project Wiki](link-to-wiki)
 
 ## 🙏 Acknowledgments
@@ -352,6 +352,6 @@ For support and questions:
 
 ---
 
-**Built with ❤️ by the ShopHub Team**
+**Built with ❤️ by Saurav**
 
 _This is a demonstration project showcasing modern web development practices with the MERN stack._
