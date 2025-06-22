@@ -32,7 +32,7 @@ export const seedData = async () => {
       {
         name: 'Wireless Bluetooth Headphones',
         description: 'Premium quality wireless headphones with noise cancellation and 30-hour battery life.',
-        price: 149.99,
+        price: 500.00,
         category_id: categoryIds[0],
         stock: 50,
         featured: true,
@@ -44,7 +44,7 @@ export const seedData = async () => {
       {
         name: 'Smart Watch Series X',
         description: 'Advanced smartwatch with health monitoring, GPS, and water resistance.',
-        price: 299.99,
+        price: 1800.00,
         category_id: categoryIds[0],
         stock: 30,
         featured: true,
@@ -56,7 +56,7 @@ export const seedData = async () => {
       {
         name: 'Premium Cotton T-Shirt',
         description: 'Comfortable and stylish cotton t-shirt available in multiple colors.',
-        price: 29.99,
+        price: 450.00,
         category_id: categoryIds[1],
         stock: 100,
         featured: false,
@@ -68,7 +68,7 @@ export const seedData = async () => {
       {
         name: 'Designer Denim Jeans',
         description: 'High-quality denim jeans with modern fit and premium finishing.',
-        price: 89.99,
+        price: 1200.00,
         category_id: categoryIds[1],
         stock: 75,
         featured: true,
@@ -80,7 +80,7 @@ export const seedData = async () => {
       {
         name: 'Modern Table Lamp',
         description: 'Elegant table lamp with adjustable brightness and modern design.',
-        price: 79.99,
+        price: 5000.00,
         category_id: categoryIds[2],
         stock: 40,
         featured: false,
@@ -92,7 +92,7 @@ export const seedData = async () => {
       {
         name: 'Yoga Mat Pro',
         description: 'Non-slip yoga mat with extra cushioning for comfortable practice.',
-        price: 49.99,
+        price: 5000.00,
         category_id: categoryIds[3],
         stock: 60,
         featured: false,
@@ -104,7 +104,7 @@ export const seedData = async () => {
       {
         name: 'Programming Fundamentals',
         description: 'Comprehensive guide to programming concepts and best practices.',
-        price: 39.99,
+        price: 4500.00,
         category_id: categoryIds[4],
         stock: 25,
         featured: false,
@@ -116,7 +116,7 @@ export const seedData = async () => {
       {
         name: 'Smartphone Pro Max',
         description: 'Latest flagship smartphone with advanced camera system and 5G connectivity.',
-        price: 899.99,
+        price: 70000.00,
         category_id: categoryIds[0],
         stock: 20,
         featured: true,

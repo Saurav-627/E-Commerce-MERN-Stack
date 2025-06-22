@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { fetchCart, updateCartItem, removeFromCart } from '../store/slices/cartSlice';
-import toast from 'react-hot-toast';
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import {
+  fetchCart,
+  updateCartItem,
+  removeFromCart,
+} from "../store/slices/cartSlice";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, total, itemCount, isLoading } = useSelector((state) => state.cart);
+  const { items, total, itemCount, isLoading } = useSelector(
+    (state) => state.cart
+  );
+  console.log(items, total, itemCount);
+  
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     dispatch(fetchCart());
@@ -21,10 +29,12 @@ const Cart = () => {
 
   const handleUpdateQuantity = async (productId, newQuantity) => {
     try {
-      await dispatch(updateCartItem({ productId, quantity: newQuantity })).unwrap();
+      await dispatch(
+        updateCartItem({ productId, quantity: newQuantity })
+      ).unwrap();
       dispatch(fetchCart());
     } catch (error) {
-      toast.error(error || 'Failed to update cart');
+      toast.error(error || "Failed to update cart");
     }
   };
 
@@ -32,16 +42,16 @@ const Cart = () => {
     try {
       await dispatch(removeFromCart(productId)).unwrap();
       dispatch(fetchCart());
-      toast.success('Item removed from cart');
+      toast.success("Item removed from cart");
     } catch (error) {
-      toast.error(error || 'Failed to remove item');
+      toast.error(error || "Failed to remove item");
     }
   };
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(price);
   };
 
@@ -66,10 +76,14 @@ const Cart = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center">
           <ShoppingBag className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-          <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
-          <Link 
-            to="/products" 
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Your cart is empty
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Looks like you haven't added any items to your cart yet.
+          </p>
+          <Link
+            to="/products"
             className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700  transition-colors inline-flex items-center space-x-2"
           >
             <span>Continue Shopping</span>
@@ -86,59 +100,82 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
-          {items.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center space-x-4">
-                <img
-                  src={item.images?.[0] || 'https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg'}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
-                  <p className="text-gray-600">{formatPrice(item.price)}</p>
-                  <p className="text-sm text-gray-500">
-                    {item.stock > 0 ? `${item.stock} in stock` : 'Out of stock'}
-                  </p>
-                </div>
+          {items.map((item) => {
+            return (
+              <div key={item._id} className="bg-white rounded-lg shadow-md p-6">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={
+                      item.product_id.images?.[0] ||
+                      "https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg"
+                    }
+                    alt={item.product_id.name}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
 
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center border border-gray-300 rounded-lg">
-                    <button
-                      onClick={() => handleUpdateQuantity(item.product_id, item.quantity - 1)}
-                      disabled={item.quantity <= 1}
-                      className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <span className="px-4 py-2 font-medium">{item.quantity}</span>
-                    <button
-                      onClick={() => handleUpdateQuantity(item.product_id, item.quantity + 1)}
-                      disabled={item.quantity >= item.stock}
-                      className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {item.product_id.name}
+                    </h3>
+                    <p className="text-gray-600">{formatPrice(item.product_id.price)}</p>
+                    <p className="text-sm text-gray-500">
+                      {item.product_id.stock > 0
+                        ? `${item.product_id.stock} in stock`
+                        : "Out of stock"}
+                    </p>
                   </div>
 
-                  <button
-                    onClick={() => handleRemoveItem(item.product_id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </button>
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center border border-gray-300 rounded-lg">
+                      <button
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product_id._id,
+                            item.quantity - 1
+                          )
+                        }
+                        disabled={item.quantity <= 1}
+                        className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="px-4 py-2 font-medium">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product_id._id,
+                            item.quantity + 1
+                          )
+                        }
+                        disabled={item.quantity >= item.product_id.stock}
+                        className="p-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => handleRemoveItem(item.product_id._id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Summary</h2>
-            
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Order Summary
+            </h2>
+
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-600">Items ({itemCount})</span>
@@ -147,7 +184,7 @@ const Cart = () => {
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
                 <span className="font-medium">
-                  {total >= 50 ? 'Free' : formatPrice(9.99)}
+                  {total >= 50 ? "Free" : formatPrice(9.99)}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -157,7 +194,9 @@ const Cart = () => {
               <hr />
               <div className="flex justify-between text-lg font-semibold">
                 <span>Total</span>
-                <span>{formatPrice(total + (total >= 50 ? 0 : 9.99) + (total * 0.08))}</span>
+                <span>
+                  {formatPrice(total + (total >= 50 ? 0 : 9.99) + total * 0.08)}
+                </span>
               </div>
             </div>
 
@@ -170,7 +209,7 @@ const Cart = () => {
             )}
 
             <button
-              onClick={() => navigate('/checkout')}
+              onClick={() => navigate("/checkout")}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Proceed to Checkout

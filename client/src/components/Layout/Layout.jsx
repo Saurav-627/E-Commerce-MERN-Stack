@@ -4,8 +4,9 @@ import Header from './Header';
 import Footer from './Footer';
 import { getCurrentUser } from '../../store/slices/authSlice';
 import { fetchCart } from '../../store/slices/cartSlice';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const dispatch = useDispatch();
   const { token, isAuthenticated } = useSelector((state) => state.auth);
 
@@ -25,7 +26,7 @@ const Layout = ({ children }) => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
-        {children}
+        <Outlet />
       </main>
       <Footer />
     </div>

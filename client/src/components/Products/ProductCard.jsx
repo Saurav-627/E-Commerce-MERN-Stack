@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(addToCart({ productId: product.id, quantity: 1 })).unwrap();
+      await dispatch(addToCart({ productId: product._id, quantity: 1 })).unwrap();
       await dispatch(fetchCart());
       toast.success('Added to cart!');
     } catch (error) {
@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'NPR'
     }).format(price);
   };
 
@@ -67,7 +67,7 @@ const ProductCard = ({ product }) => {
 
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-gray-900">
+            <span className="text-sm font-bold text-gray-900">
               {formatPrice(product.price)}
             </span>
             {product.stock > 0 ? (
@@ -80,7 +80,7 @@ const ProductCard = ({ product }) => {
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-blue-600 text-white px-2 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ShoppingCart className="h-4 w-4" />
             <span>Add to Cart</span>
