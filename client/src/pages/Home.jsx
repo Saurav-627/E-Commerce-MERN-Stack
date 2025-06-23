@@ -25,7 +25,7 @@ const Home = () => {
     {
       icon: Truck,
       title: "Fast Delivery",
-      description: "Free shipping on orders over $50",
+      description: "Free shipping on orders over NPR 100",
     },
     {
       icon: CreditCard,
@@ -64,12 +64,12 @@ const Home = () => {
                   <span>Shop Now</span>
                   <ArrowRight className="h-5 w-5" />
                 </Link>
-                <Link
+                {/* <Link
                   to="/categories"
                   className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors flex items-center justify-center"
                 >
                   Browse Categories
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="hidden lg:block">
@@ -187,7 +187,7 @@ const Home = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-blue-600 text-white py-16">
+      {/* <section className="bg-blue-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Stay Updated with Our Latest Offers
@@ -207,7 +207,7 @@ const Home = () => {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

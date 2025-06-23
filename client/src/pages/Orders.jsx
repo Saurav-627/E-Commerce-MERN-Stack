@@ -21,7 +21,7 @@ const Orders = () => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'NPR'
     }).format(price);
   };
 
@@ -140,20 +140,21 @@ const Orders = () => {
             <div className="p-6">
               <h4 className="font-medium text-gray-900 mb-4">Order Items</h4>
               <div className="space-y-3">
-                {order.items.map((item) => (
+                {order.items.map((item) => {                  
+                  return(
                   <div key={item.id} className="flex items-center space-x-4">
                     <img
-                      src={item.images?.[0] || 'https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg'}
-                      alt={item.product_name}
+                      src={item.product_id.images?.[0] || 'https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg'}
+                      alt={item.product_id.product_name}
                       className="w-12 h-12 object-cover rounded"
                     />
                     <div className="flex-1">
-                      <h5 className="font-medium text-gray-900">{item.product_name}</h5>
+                      <h5 className="font-medium text-gray-900">{item.product_id.product_name}</h5>
                       <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                     </div>
                     <span className="font-medium">{formatPrice(item.price * item.quantity)}</span>
                   </div>
-                ))}
+                )})}
               </div>
             </div>
           </div>

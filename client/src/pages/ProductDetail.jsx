@@ -39,7 +39,7 @@ const ProductDetail = () => {
     }
 
     try {
-      await dispatch(addToCart({ productId: currentProduct.id, quantity })).unwrap();
+      await dispatch(addToCart({ productId: currentProduct._id, quantity })).unwrap();
       await dispatch(fetchCart());
       toast.success('Added to cart!');
     } catch (error) {
@@ -50,7 +50,7 @@ const ProductDetail = () => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'NPR'
     }).format(price);
   };
 

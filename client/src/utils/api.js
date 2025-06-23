@@ -23,23 +23,23 @@ api.interceptors.request.use(
 );
 
 // Response interceptor for error handling
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const message = error.response?.data?.message || 'Something went wrong!';
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     const message = error.response?.data?.message || 'Something went wrong!';
     
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-      toast.error('Session expired. Please log in again.');
-    } else if (error.response?.status >= 500) {
-      toast.error('Server error. Please try again later.');
-    } else if (error.response?.status >= 400) {
-      toast.error(message);
-    }
+//     if (error.response?.status === 401) {
+//       localStorage.removeItem('token');
+//       // window.location.href = '/login';
+//       toast.error('Session expired. Please log in again.');
+//     } else if (error.response?.status >= 500) {
+//       toast.error('Server error. Please try again later.');
+//     } else if (error.response?.status >= 400) {
+//       toast.error(message);
+//     }
     
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;

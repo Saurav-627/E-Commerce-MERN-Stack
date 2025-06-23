@@ -6,7 +6,7 @@ import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
-import { seedData } from "./seeders/seed.js";
+// import { seedData } from "./seeders/seed.js";
 
 // Import routes
 import authRoutes from "./routes/auth.js";
@@ -36,7 +36,7 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("✅ Connected to MongoDB");
-    seedData();
+    // seedData();
   })
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);

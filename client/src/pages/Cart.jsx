@@ -15,7 +15,6 @@ const Cart = () => {
   const { items, total, itemCount, isLoading } = useSelector(
     (state) => state.cart
   );
-  console.log(items, total, itemCount);
   
   const { isAuthenticated } = useSelector((state) => state.auth);
 
@@ -51,7 +50,7 @@ const Cart = () => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "NPR",
     }).format(price);
   };
 
