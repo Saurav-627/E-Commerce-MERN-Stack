@@ -13,6 +13,24 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const createProduct = createAsyncThunk(
+  'products/createProduct',
+  async (productData) => {
+    console.log(productData);
+    
+    const response = await api.post('/admin/products', productData);
+    return response.data;
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  'products/updateProduct',
+  async ({ id, productData }) => {
+    const response = await api.put(`/admin/products/${id}`, productData);
+    return response.data;
+  }
+);
+
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async (id, { rejectWithValue }) => {
@@ -34,6 +52,14 @@ export const fetchCategories = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data.message);
     }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  'products/deleteProduct',
+  async (id) => {
+    await api.delete(`/admin/products/${id}`);
+    return id;
   }
 );
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, createProduct, updateProduct, deleteProduct } from '../admin-store/slices/productsSlice';
-import { fetchCategories } from '../admin-store/slices/categoriesSlice';
+import { fetchProducts, createProduct, updateProduct, deleteProduct } from '../store/slices/productSlice';
+import { fetchCategories } from '../store/slices/categoriesSlice';
 import { Plus, Search, Edit, Trash2, Eye, Package } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -17,7 +17,7 @@ const ProductsManagement = () => {
     name: '',
     description: '',
     price: 0,
-    category: '',
+    categoryId: '',
     stock: 0,
     image: '',
     featured: false,
@@ -46,7 +46,7 @@ const ProductsManagement = () => {
         name: '',
         description: '',
         price: 0,
-        category: '',
+        categoryId: '',
         stock: 0,
         image: '',
         featured: false,
@@ -57,14 +57,14 @@ const ProductsManagement = () => {
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product);
+    setEditingProduct(product);    
     setFormData({
       name: product.name,
       description: product.description,
       price: product.price,
-      category: product.category,
+      categoryId: product.category,
       stock: product.stock,
-      image: product.image,
+      image: product.images?.[0],
       featured: product.featured,
     });
     setShowModal(true);
@@ -100,7 +100,7 @@ const ProductsManagement = () => {
               name: '',
               description: '',
               price: 0,
-              category: '',
+              categoryId: '',
               stock: 0,
               image: '',
               featured: false,
@@ -177,10 +177,10 @@ const ProductsManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0">
-                          {product.image ? (
+                          {product.images ? (
                             <img
                               className="h-10 w-10 rounded-lg object-cover"
-                              src={product.image}
+                              src={product.images?.[0]}
                               alt={product.name}
                             />
                           ) : (
@@ -198,10 +198,10 @@ const ProductsManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {product.category}
+                      {product.category_id.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${product.price}
+                      NPR {product.price}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {product.stock}
@@ -241,7 +241,7 @@ const ProductsManagement = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.7)] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-auto">
             <h2 className="text-lg font-semibold mb-4">
               {editingProduct ? 'Edit Product' : 'Add New Product'}
@@ -280,18 +280,19 @@ const ProductsManagement = () => {
                   Category
                 </label>
                 <select
-                  name="category"
-                  value={formData.category}
+                  name="categoryId"
+                  value={formData.categoryId}
                   onChange={handleChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Category</option>
-                  {categories.map((category) => (
-                    <option key={category._id} value={category.name}>
+                  {categories.data.categories.map((category) => {
+                    return(
+                    <option key={category._id} value={category._id}>
                       {category.name}
                     </option>
-                  ))}
+                  )})}
                 </select>
               </div>
 
