@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOrders, updateOrderStatus } from '../admin-store/slices/ordersSlice';
+import { fetchOrders, updateOrderStatus } from '../store/slices/ordersSlice';
 import { Search, Package, MapPin, User, Calendar, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const OrdersManagement = () => {
   const dispatch = useDispatch();
-  const { orders, isLoading, pagination } = useSelector((state) => state.orders);
+  const { orders , isLoading, pagination } = useSelector((state) => state.adminOrders);
+  
+  useEffect(() => {
+    console.log(orders);
+    
+  },[orders])
+  
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -80,7 +86,7 @@ const OrdersManagement = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Orders Management</h1>
         <div className="text-sm text-gray-600">
-          Total Orders: {pagination.total}
+          Total Orders: {pagination?.total}
         </div>
       </div>
 
@@ -147,14 +153,14 @@ const OrdersManagement = () => {
                     </div>
                   </td>
                 </tr>
-              ) : orders.length === 0 ? (
+              ) : orders?.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
                     No orders found
                   </td>
                 </tr>
               ) : (
-                orders.map((order) => (
+                orders?.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
@@ -225,7 +231,7 @@ const OrdersManagement = () => {
         </div>
 
         {/* Pagination */}
-        {pagination.totalPages > 1 && (
+        {/* {pagination?.totalPages > 1 && (
           <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200">
             <div className="flex-1 flex justify-between sm:hidden">
               <button
@@ -270,7 +276,7 @@ const OrdersManagement = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

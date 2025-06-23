@@ -548,7 +548,7 @@ router.delete('/categories/:id', async (req, res) => {
       });
     }
 
-    await category.remove();
+    await category.deleteOne();
 
     res.json({
       success: true,

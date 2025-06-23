@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, createCategory, updateCategory, deleteCategory } from '../admin-store/slices/categoriesSlice';
+import { fetchCategories, createCategory, updateCategory, deleteCategory } from '../store/slices/categoriesSlice';
 import { Plus, Search, Edit, Trash2, Tag } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const CategoriesManagement = () => {
   const dispatch = useDispatch();
-  const { categories, isLoading } = useSelector((state) => state.categories);
-
+  const { categories, isLoading } = useSelector((state) => state.categories);  
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    image: '',
   });
 
-  const filteredCategories = categories.filter(category =>
+  const filteredCategories = categories?.data?.categories?.filter(category =>
     category.name.toLowerCase().includes(search.toLowerCase()) ||
     category.description.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,9 +39,11 @@ const CategoriesManagement = () => {
       
       setShowModal(false);
       setEditingCategory(null);
-      setFormData({ name: '', description: '' });
+      setFormData({ name: '', description: '', image: '' });
     } catch (error) {
       // Error handled by interceptor
+    } finally {
+      setShowModal(false);
     }
   };
 
@@ -50,6 +52,7 @@ const CategoriesManagement = () => {
     setFormData({
       name: category.name,
       description: category.description,
+      image: category.image,
     });
     setShowModal(true);
   };
@@ -107,12 +110,12 @@ const CategoriesManagement = () => {
           <div className="col-span-full flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           </div>
-        ) : filteredCategories.length === 0 ? (
+        ) : filteredCategories?.length === 0 ? (
           <div className="col-span-full text-center py-12 text-gray-500">
             No categories found
           </div>
         ) : (
-          filteredCategories.map((category) => (
+          filteredCategories?.map((category) => (
             <div key={category._id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
@@ -122,7 +125,7 @@ const CategoriesManagement = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
                     <p className="text-sm text-gray-600">
-                      Created {new Date(category.createdAt).toLocaleDateString()}
+                      Created {new Date(category.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -152,7 +155,7 @@ const CategoriesManagement = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.7)] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-lg font-semibold mb-4">
               {editingCategory ? 'Edit Category' : 'Add New Category'}
@@ -182,6 +185,20 @@ const CategoriesManagement = () => {
                   value={formData.description}
                   onChange={handleChange}
                   rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Image URL
+                </label>
+                <input
+                  type="url"
+                  name="image"
+                  value={formData.image}
+                  onChange={handleChange}
+                  placeholder="https://example.com/image.jpg"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

@@ -14,9 +14,7 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { stats, isLoading } = useSelector((state) => state.admin || {});
-
-  console.log(stats);
-
+  
   useEffect(() => {
     dispatch(fetchAdminStats());
   }, [dispatch]);

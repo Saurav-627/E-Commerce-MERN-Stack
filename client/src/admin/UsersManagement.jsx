@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, updateUserRole, deleteUser } from '../admin-store/slices/usersSlice';
-import { Search, Edit, Trash2, User, Crown, ChevronDown } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchUsers,
+  updateUserRole,
+  deleteUser,
+} from "../store/slices/usersSlice";
+import { Search, Edit, Trash2, User, Crown, ChevronDown } from "lucide-react";
+import toast from "react-hot-toast";
 
 const UsersManagement = () => {
   const dispatch = useDispatch();
   const { users, isLoading, pagination } = useSelector((state) => state.users);
-
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -16,10 +19,14 @@ const UsersManagement = () => {
   }, [dispatch, page, search]);
 
   const handleRoleUpdate = async (userId, newRole) => {
-    if (window.confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to change this user's role to ${newRole}?`
+      )
+    ) {
       try {
         await dispatch(updateUserRole({ id: userId, role: newRole })).unwrap();
-        toast.success('User role updated successfully!');
+        toast.success("User role updated successfully!");
       } catch (error) {
         // Error handled by interceptor
       }
@@ -27,10 +34,14 @@ const UsersManagement = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this user? This action cannot be undone."
+      )
+    ) {
       try {
         await dispatch(deleteUser(userId)).unwrap();
-        toast.success('User deleted successfully!');
+        toast.success("User deleted successfully!");
       } catch (error) {
         // Error handled by interceptor
       }
@@ -45,12 +56,12 @@ const UsersManagement = () => {
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={`flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-medium ${
-            user.role === 'admin'
-              ? 'bg-purple-100 text-purple-800'
-              : 'bg-gray-100 text-gray-800'
+            user.role === "admin"
+              ? "bg-purple-100 text-purple-800"
+              : "bg-gray-100 text-gray-800"
           }`}
         >
-          {user.role === 'admin' ? (
+          {user.role === "admin" ? (
             <Crown className="h-3 w-3" />
           ) : (
             <User className="h-3 w-3" />
@@ -63,7 +74,7 @@ const UsersManagement = () => {
           <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
             <button
               onClick={() => {
-                handleRoleUpdate(user._id, 'user');
+                handleRoleUpdate(user._id, "user");
                 setIsOpen(false);
               }}
               className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center space-x-2"
@@ -73,7 +84,7 @@ const UsersManagement = () => {
             </button>
             <button
               onClick={() => {
-                handleRoleUpdate(user._id, 'admin');
+                handleRoleUpdate(user._id, "admin");
                 setIsOpen(false);
               }}
               className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center space-x-2"
@@ -144,7 +155,10 @@ const UsersManagement = () => {
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                  <td
+                    colSpan={5}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
                     No users found
                   </td>
                 </tr>
@@ -159,7 +173,9 @@ const UsersManagement = () => {
                           </div>
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {user.name}
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -170,21 +186,23 @@ const UsersManagement = () => {
                       <RoleDropdown user={user} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(user.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
+                      {new Date(user.created_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
                       })}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() => handleDeleteUser(user._id)}
-                        className="p-1 text-red-600 hover:text-red-900 transition-colors"
-                        title="Delete user"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </td>
+                    {user.role !== "admin" && (
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button
+                          onClick={() => handleDeleteUser(user._id)}
+                          className="p-1 text-red-600 hover:text-red-900 transition-colors"
+                          title="Delete user"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))
               )}
@@ -214,7 +232,7 @@ const UsersManagement = () => {
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
-                  Showing page <span className="font-medium">{page}</span> of{' '}
+                  Showing page <span className="font-medium">{page}</span> of{" "}
                   <span className="font-medium">{pagination.totalPages}</span>
                 </p>
               </div>
