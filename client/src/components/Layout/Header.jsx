@@ -88,12 +88,15 @@ const Header = () => {
                     {/* <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                     Profile
                   </Link> */}
-                    <Link
-                      to="/orders"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      My Orders
-                    </Link>
+                    {user?.role === "user" && (
+                      <Link
+                        to="/orders"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        My Orders
+                      </Link>
+                    )}
+
                     {user?.role === "admin" && (
                       <Link
                         to="/admin/dashboard"

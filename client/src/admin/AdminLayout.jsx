@@ -29,7 +29,7 @@ const AdminLayout = () => {
     { path: '/admin/categories', icon: Tags, label: 'Categories' },
     { path: '/admin/users', icon: Users, label: 'Users' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
-    { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+    // { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
   ];
 
   const handleLogout = () => {

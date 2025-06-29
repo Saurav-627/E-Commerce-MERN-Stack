@@ -17,6 +17,6 @@ export const store = configureStore({
     cart: cartSlice,
     orders: orderSlice,
     users: usersSlice,
-    adminOrders: ordersSlice,
+    // adminOrders: ordersSlice,
   },
 });
