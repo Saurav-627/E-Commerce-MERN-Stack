@@ -192,7 +192,7 @@ const Checkout = () => {
                   <span>Credit/Debit Card</span>
                 </label>
 
-                <label className="flex items-center space-x-3">
+                {/* <label className="flex items-center space-x-3">
                   <input
                     type="radio"
                     name="paymentMethod"
@@ -202,6 +202,18 @@ const Checkout = () => {
                     className="w-4 h-4 text-blue-600"
                   />
                   <span>e-sewa</span>
+                </label> */}
+
+                <label className="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="khalti"
+                    checked={paymentMethod === "khalti"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span>khalti</span>
                 </label>
 
                 <label className="flex items-center space-x-3">

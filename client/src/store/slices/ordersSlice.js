@@ -40,8 +40,8 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orders = action.payload.data.orders;
-        state.pagination = action.payload.data.pagination;
+        state.orders = action.payload.data?.orders;
+        state.pagination = action.payload.data?.pagination;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.isLoading = false;
