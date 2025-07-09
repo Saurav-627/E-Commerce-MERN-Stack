@@ -1,28 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ShoppingCart, Star, Heart } from 'lucide-react';
-import { addToCart, fetchCart } from '../../store/slices/cartSlice';
-import toast from 'react-hot-toast';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ShoppingCart, Star, Heart } from "lucide-react";
+import { addToCart, fetchCart } from "../../store/slices/cartSlice";
+import toast from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(addToCart({ productId: product._id, quantity: 1 })).unwrap();
+      await dispatch(
+        addToCart({ productId: product._id, quantity: 1 })
+      ).unwrap();
       await dispatch(fetchCart());
-      toast.success('Added to cart!');
+      toast.success("Added to cart!");
     } catch (error) {
-      toast.error(error || 'Failed to add to cart');
+      if (!isAuthenticated) {
+        toast.error("Please log in to add items to cart");
+      } else {
+        toast.error(error || "Failed to add to cart");
+      }
     }
   };
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'NPR'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "NPR",
     }).format(price);
   };
 
@@ -31,7 +38,10 @@ const ProductCard = ({ product }) => {
       <Link to={`/products/${product._id}`}>
         <div className="relative overflow-hidden">
           <img
-            src={product.images?.[0] || 'https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg'}
+            src={
+              product.images?.[0] ||
+              "https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg"
+            }
             alt={product.name}
             className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -48,7 +58,9 @@ const ProductCard = ({ product }) => {
 
       <div className="p-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-blue-600 font-medium">{product.category_name}</span>
+          <span className="text-sm text-blue-600 font-medium">
+            {product.category_name}
+          </span>
           <div className="flex items-center space-x-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="text-sm text-gray-600">4.5</span>

@@ -5,6 +5,8 @@ import { CreditCard, MapPin, User } from "lucide-react";
 import { createOrder } from "../store/slices/orderSlice";
 import { clearCart } from "../store/slices/cartSlice";
 import toast from "react-hot-toast";
+import api from "../utils/api";
+import axios from "axios";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -50,17 +52,56 @@ const Checkout = () => {
         quantity: item.quantity,
       }));
 
-      await dispatch(
-        createOrder({
-          items: orderItems,
-          shippingAddress,
-          paymentMethod,
-        })
-      ).unwrap();
+      if (paymentMethod === "khalti") {
+        try {
+          const response = await axios.post("https://dev.khalti.com/api/v2/epayment/initiate/", {
+            amount: Math.round(
+              (total + (total >= 50 ? 0 : 9.99) + total * 0.08) * 100
+            ),
+            return_url: "http://localhost:3000/orders/",
+            website_url: "http://localhost:3000",
+            purchase_order_id: items
+              .map((item) => item.product_id._id)
+              .join("-"),
+            purchase_order_name: items
+              .map((item) => item.product_id.name)
+              .join(", "),
+            customer_info: {
+              name: user.name,
+              email: user.email,
+            },
+          },
+          {
+            headers: {
+              Authorization: "Key 0ff6f5f011f1480b9239dc0fa6aec717", 
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      dispatch(clearCart());
-      toast.success("Order placed successfully!");
-      navigate("/orders");
+          if (response.data && response.data.payment_url) {
+            window.location.href = response.data.payment_url;
+            dispatch(clearCart());
+            toast.success("Order placed successfully!");
+          } 
+        } catch (err) {
+          console.error("Khalti payment error", err);
+          alert("Payment failed. Please try again.");
+        }
+      } else {
+        // Handle other payment methods (card)
+        await dispatch(
+          createOrder({
+            items: orderItems,
+            shippingAddress,
+            paymentMethod,
+            paymentStatus: "pending",
+          })
+        ).unwrap();
+        dispatch(clearCart());
+        toast.success("Order placed successfully!");
+        navigate("/orders");
+      }
     } catch (error) {
       toast.error(error || "Failed to place order");
     }
@@ -164,9 +205,7 @@ const Checkout = () => {
                     disabled
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-not-allowed"
                   >
-                    <option value="Nepal">
-                      Nepal
-                    </option>
+                    <option value="Nepal">Nepal</option>
                   </select>
                 </div>
               </div>
@@ -180,7 +219,7 @@ const Checkout = () => {
               </h2>
 
               <div className="space-y-4">
-                <label className="flex items-center space-x-3">
+                {/* <label className="flex items-center space-x-3">
                   <input
                     type="radio"
                     name="paymentMethod"
@@ -190,7 +229,7 @@ const Checkout = () => {
                     className="w-4 h-4 text-blue-600"
                   />
                   <span>Credit/Debit Card</span>
-                </label>
+                </label> */}
 
                 {/* <label className="flex items-center space-x-3">
                   <input
@@ -229,11 +268,19 @@ const Checkout = () => {
                 </label>
               </div>
 
-              {paymentMethod === "card" && (
+              {/* {paymentMethod === "card" && (
                 <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <p className="text-sm text-yellow-700">
                     <strong>Demo Mode:</strong> This is a demo checkout. No real
                     payment will be processed.
+                  </p>
+                </div>
+              )} */}
+              {paymentMethod === "khalti" && (
+                <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    <strong>Khalti Payment:</strong> You will be redirected to
+                    Khalti's payment portal to complete the transaction.
                   </p>
                 </div>
               )}
@@ -244,7 +291,11 @@ const Checkout = () => {
               disabled={isLoading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
-              {isLoading ? "Placing Order..." : "Place Order"}
+              {isLoading
+                ? "Processing..."
+                : paymentMethod === "khalti"
+                ? "Proceed to Khalti Payment"
+                : "Place Order"}
             </button>
           </form>
         </div>
@@ -257,7 +308,6 @@ const Checkout = () => {
 
           <div className="space-y-4 mb-6">
             {items.map((item) => {
-              console.log(item);
               return (
                 <div key={item.id} className="flex items-center space-x-3">
                   <img

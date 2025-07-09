@@ -7,7 +7,7 @@ const router = express.Router();
 // Create order
 router.post('/', authenticate, async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod } = req.body;
+    const { items, shippingAddress, paymentMethod, paymentStatus } = req.body;
     const userId = req.user._id;
 
     if (!items || items.length === 0) {
@@ -53,7 +53,8 @@ router.post('/', authenticate, async (req, res) => {
       user_id: userId,
       total,
       shipping_address: shippingAddress,
-      payment_method: paymentMethod
+      payment_method: paymentMethod,
+      payment_status: paymentStatus
     });
     await order.save();
 
