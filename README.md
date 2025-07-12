@@ -338,11 +338,11 @@ npx kill-port 5000
 
 ### Login Page
 
-![Cart](images/Login-page.png)
+![Cart](images/Login-Page.png)
 
 ### Register Page
 
-![Cart](images/Register-page.png)
+![Cart](images/Register-Page.png)
 
 ### Admin Panel
 
