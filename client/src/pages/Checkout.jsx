@@ -71,10 +71,6 @@ const Checkout = () => {
             email: user.email || "test@khalti.com",
             phone: "9800000001", // Replace with actual user phone if available
           },
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Key ${token}`,
-          }
         });
 
         if (response.data.success && response.data.payment_url) {
