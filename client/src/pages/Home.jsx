@@ -166,7 +166,7 @@ const Home = () => {
             {categories.slice(0, 5).map((category) => (
               <Link
                 key={category._id}
-                to={`/products?category=${category.id}`}
+                to={`/products?category=${category._id}`}
                 className="group text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               >
                 <img

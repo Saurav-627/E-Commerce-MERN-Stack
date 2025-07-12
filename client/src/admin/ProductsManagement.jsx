@@ -1,25 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, createProduct, updateProduct, deleteProduct } from '../store/slices/productSlice';
-import { fetchCategories } from '../store/slices/categoriesSlice';
-import { Plus, Search, Edit, Trash2, Eye, Package } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from "../store/slices/productSlice";
+import { fetchCategories } from "../store/slices/categoriesSlice";
+import { Plus, Search, Edit, Trash2, Eye, Package } from "lucide-react";
+import toast from "react-hot-toast";
 
 const ProductsManagement = () => {
   const dispatch = useDispatch();
-  const { products, isLoading, pagination } = useSelector((state) => state.products);
+  const { products, isLoading, pagination } = useSelector(
+    (state) => state.products
+  );
   const { categories } = useSelector((state) => state.categories);
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     price: 0,
-    categoryId: '',
+    categoryId: "",
     stock: 0,
-    image: '',
+    image: "",
     featured: false,
   });
 
@@ -30,25 +37,29 @@ const ProductsManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (editingProduct) {
-        await dispatch(updateProduct({ id: editingProduct._id, productData: formData })).unwrap();
-        toast.success('Product updated successfully!');
+        await dispatch(
+          updateProduct({ id: editingProduct._id, productData: formData })
+        ).unwrap();
+        dispatch(fetchProducts({ page: 1, search }));
+
+        toast.success("Product updated successfully!");
       } else {
         await dispatch(createProduct(formData)).unwrap();
-        toast.success('Product created successfully!');
+        toast.success("Product created successfully!");
       }
-      
+
       setShowModal(false);
       setEditingProduct(null);
       setFormData({
-        name: '',
-        description: '',
+        name: "",
+        description: "",
         price: 0,
-        categoryId: '',
+        categoryId: "",
         stock: 0,
-        image: '',
+        image: "",
         featured: false,
       });
     } catch (error) {
@@ -57,7 +68,7 @@ const ProductsManagement = () => {
   };
 
   const handleEdit = (product) => {
-    setEditingProduct(product);    
+    setEditingProduct(product);
     setFormData({
       name: product.name,
       description: product.description,
@@ -71,10 +82,12 @@ const ProductsManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
+    if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await dispatch(deleteProduct(id)).unwrap();
-        toast.success('Product deleted successfully!');
+        dispatch(fetchProducts({ page: 1, search }));
+
+        toast.success("Product deleted successfully!");
       } catch (error) {
         // Error handled by interceptor
       }
@@ -85,24 +98,26 @@ const ProductsManagement = () => {
     const { name, value, type } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? e.target.checked : value,
+      [name]: type === "checkbox" ? e.target.checked : value,
     });
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Products Management</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Products Management
+        </h1>
         <button
           onClick={() => {
             setEditingProduct(null);
             setFormData({
-              name: '',
-              description: '',
+              name: "",
+              description: "",
               price: 0,
-              categoryId: '',
+              categoryId: "",
               stock: 0,
-              image: '',
+              image: "",
               featured: false,
             });
             setShowModal(true);
@@ -167,7 +182,10 @@ const ProductsManagement = () => {
                 </tr>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                  <td
+                    colSpan={6}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
                     No products found
                   </td>
                 </tr>
@@ -190,7 +208,9 @@ const ProductsManagement = () => {
                           )}
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {product.name}
+                          </div>
                           <div className="text-sm text-gray-500 truncate max-w-xs">
                             {product.description}
                           </div>
@@ -207,12 +227,14 @@ const ProductsManagement = () => {
                       {product.stock}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        product.featured
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {product.featured ? 'Featured' : 'Regular'}
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          product.featured
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {product.featured ? "Featured" : "Regular"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -244,9 +266,9 @@ const ProductsManagement = () => {
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.7)] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-auto">
             <h2 className="text-lg font-semibold mb-4">
-              {editingProduct ? 'Edit Product' : 'Add New Product'}
+              {editingProduct ? "Edit Product" : "Add New Product"}
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -288,11 +310,12 @@ const ProductsManagement = () => {
                 >
                   <option value="">Select Category</option>
                   {categories.data.categories.map((category) => {
-                    return(
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  )})}
+                    return (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
@@ -361,7 +384,7 @@ const ProductsManagement = () => {
                   type="submit"
                   className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  {editingProduct ? 'Update' : 'Create'}
+                  {editingProduct ? "Update" : "Create"}
                 </button>
                 <button
                   type="button"

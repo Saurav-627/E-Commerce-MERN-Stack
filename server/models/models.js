@@ -54,6 +54,15 @@ const orderSchema = new mongoose.Schema({
   },
   payment_method: String,
   payment_status: { type: String, default: 'pending' },
+  khalti_pidx: { type: String },
+  transaction_id: { type: String },
+  items: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+      quantity: { type: Number },
+      price: { type: Number },
+    },
+  ],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });

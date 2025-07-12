@@ -1,45 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, createCategory, updateCategory, deleteCategory } from '../store/slices/categoriesSlice';
-import { Plus, Search, Edit, Trash2, Tag } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "../store/slices/categoriesSlice";
+import { Plus, Search, Edit, Trash2, Tag } from "lucide-react";
+import toast from "react-hot-toast";
 
 const CategoriesManagement = () => {
   const dispatch = useDispatch();
-  const { categories, isLoading } = useSelector((state) => state.categories);  
-  const [search, setSearch] = useState('');
+  const { categories, isLoading } = useSelector((state) => state.categories);
+  const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    image: '',
+    name: "",
+    description: "",
+    image: "",
   });
 
-  const filteredCategories = categories?.data?.categories?.filter(category =>
-    category.name.toLowerCase().includes(search.toLowerCase()) ||
-    category.description.toLowerCase().includes(search.toLowerCase())
+  const filteredCategories = categories?.data?.categories?.filter(
+    (category) =>
+      category.name.toLowerCase().includes(search.toLowerCase()) ||
+      category.description.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
     try {
       if (editingCategory) {
-        await dispatch(updateCategory({ id: editingCategory._id, categoryData: formData })).unwrap();
-        toast.success('Category updated successfully!');
+        dispatch(updateCategory({ id: editingCategory._id, categoryData: formData })).unwrap();
+        dispatch(fetchCategories());
+        toast.success("Category updated successfully!");
       } else {
-        await dispatch(createCategory(formData)).unwrap();
-        toast.success('Category created successfully!');
+        dispatch(createCategory(formData)).unwrap();
+        dispatch(fetchCategories());
+        toast.success("Category created successfully!");
       }
-      
+
       setShowModal(false);
       setEditingCategory(null);
-      setFormData({ name: '', description: '', image: '' });
+      setFormData({ name: "", description: "", image: "" });
     } catch (error) {
       // Error handled by interceptor
     } finally {
@@ -57,11 +64,13 @@ const CategoriesManagement = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this category?')) {
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        await dispatch(deleteCategory(id)).unwrap();
-        toast.success('Category deleted successfully!');
+        dispatch(deleteCategory(id)).unwrap();
+        dispatch(fetchCategories());
+
+        toast.success("Category deleted successfully!");
       } catch (error) {
         // Error handled by interceptor
       }
@@ -76,11 +85,13 @@ const CategoriesManagement = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Categories Management</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Categories Management
+        </h1>
         <button
           onClick={() => {
             setEditingCategory(null);
-            setFormData({ name: '', description: '' });
+            setFormData({ name: "", description: "" });
             setShowModal(true);
           }}
           className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -116,16 +127,22 @@ const CategoriesManagement = () => {
           </div>
         ) : (
           filteredCategories?.map((category) => (
-            <div key={category._id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div
+              key={category._id}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+            >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Tag className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {category.name}
+                    </h3>
                     <p className="text-sm text-gray-600">
-                      Created {new Date(category.created_at).toLocaleDateString()}
+                      Created{" "}
+                      {new Date(category.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -144,9 +161,9 @@ const CategoriesManagement = () => {
                   </button>
                 </div>
               </div>
-              
+
               <p className="text-gray-600 text-sm leading-relaxed">
-                {category.description || 'No description provided'}
+                {category.description || "No description provided"}
               </p>
             </div>
           ))
@@ -158,9 +175,9 @@ const CategoriesManagement = () => {
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.7)] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-lg font-semibold mb-4">
-              {editingCategory ? 'Edit Category' : 'Add New Category'}
+              {editingCategory ? "Edit Category" : "Add New Category"}
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -208,7 +225,7 @@ const CategoriesManagement = () => {
                   type="submit"
                   className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  {editingCategory ? 'Update' : 'Create'}
+                  {editingCategory ? "Update" : "Create"}
                 </button>
                 <button
                   type="button"

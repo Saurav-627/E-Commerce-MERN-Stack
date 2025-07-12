@@ -25,7 +25,13 @@ const OrdersManagement = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [page, setPage] = useState(1);
 
-  const orderStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+  const orderStatuses = [
+    "pending",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled",
+  ];
 
   useEffect(() => {
     dispatch(fetchOrders({ page, search, status: statusFilter }));
@@ -37,6 +43,7 @@ const OrdersManagement = () => {
         updateOrderStatus({ id: orderId, status: newStatus })
       ).unwrap();
       toast.success("Order status updated successfully!");
+      dispatch(fetchOrders({ page, search, status: statusFilter }));
     } catch (error) {
       // Error handled by interceptor
     }
@@ -92,8 +99,6 @@ const OrdersManagement = () => {
     );
   };
 
-  console.log(orders);
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -147,10 +152,13 @@ const OrdersManagement = () => {
                   Total
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  Delivery Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Payment Method
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Payment Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Delivery Address
@@ -227,6 +235,22 @@ const OrdersManagement = () => {
                         <div className="flex items-center space-x-1">
                           <div className="text-sm">
                             <div>{order?.payment_method}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <div className="text-md text-gray-900">
+                        <div className="flex items-center space-x-1">
+                          <div
+                            className={`text-sm ${
+                              order?.payment_status === "completed"
+                                ? "bg-green-100"
+                                : ""
+                            }`}
+                          >
+                            <div>{order?.payment_status}</div>
                           </div>
                         </div>
                       </div>
