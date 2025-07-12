@@ -18,8 +18,9 @@ A full-featured, production-ready e-commerce web application built with the MERN
 ### 🔐 Admin Features
 
 - **Admin Dashboard**: Comprehensive analytics and management interface
-- **Product Management**: Full CRUD operations for products and categories
+- **Product Management**: Full CRUD operations for products
 - **Order Management**: View and update order statuses
+- **Category Management**: View, Add and update categories
 - **User Management**: View registered users and their details
 - **Analytics**: Sales reports, top products, and revenue tracking
 
@@ -45,7 +46,7 @@ A full-featured, production-ready e-commerce web application built with the MERN
 - **Helmet** - Security middleware
 - **CORS** - Cross-origin resource sharing
 
-## 📁 Project Structure
+## 📁 Project Structure (NOT FULL)
 
 ```
 mern-ecommerce-app/
@@ -60,12 +61,12 @@ mern-ecommerce-app/
 │   ├── store/             # Redux store and slices
 │   └── utils/             # Utility functions and API setup
 ├── server/                # Node.js backend
-├── package.json           # Dependencies and scripts
 │   ├── models/            # Database configuration
 │   ├── middleware/        # Authentication and other middleware
 │   ├── routes/            # API routes
 │   ├── package.json       # Dependencies and scripts
 │   └── seeders/           # Database seeding scripts
+├── images/                # Screeenshot of UI
 └── README.md              # Project documentation
 ```
 
@@ -82,7 +83,7 @@ mern-ecommerce-app/
 
    ```bash
    git clone <repository-url>
-   cd <folder-name>
+   cd <folders-name>
    ```
 
 2. **Install dependencies**
@@ -105,6 +106,7 @@ mern-ecommerce-app/
    CLIENT_URL=http://localhost:3000
    NODE_ENV=development
    JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+   KHALTI_TEST_SECRET_KEY=your-khalti-live-secret-key
    ```
 
    ```env
@@ -144,7 +146,11 @@ The application uses Redux Toolkit for state management with the following slice
 - **authSlice**: User authentication and profile management
 - **productSlice**: Product catalog and filtering
 - **cartSlice**: Shopping cart functionality
-- **orderSlice**: Order management
+- **orderSlice**: My order page functionality for orders
+- **ordersSlice**: Order management for Admin
+- **usersSlice**: Get user Update User
+- **categoriesSlice**: Get, Update, Create, Delete Categories
+- **adminSlice**: Management of Admin
 
 ### API Integration
 
@@ -194,6 +200,7 @@ The application uses MongoDB for local development with the following main table
 - `DELETE /api/users/cart/:productId` - Remove from cart
 - `POST /api/orders` - Create new order
 - `GET /api/orders` - Get user's orders
+- `More`
 
 #### Admin (Protected)
 
@@ -202,6 +209,7 @@ The application uses MongoDB for local development with the following main table
 - `POST /api/admin/products` - Create product
 - `PUT /api/admin/products/:id` - Update product
 - `DELETE /api/admin/products/:id` - Delete product
+- `More`
 
 ### Security Features
 
@@ -211,6 +219,11 @@ The application uses MongoDB for local development with the following main table
 - CORS configuration
 - Helmet for security headers
 - Input validation and sanitization
+
+### Payment Integration
+
+- Khalti Wallet Checkout
+- Cash on Delivery
 
 ## 💾 Database Seeding
 
@@ -269,7 +282,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "john@example.com",
+  "email": "user@example.com",
   "password": "user123"
 }
 ```
@@ -313,15 +326,36 @@ npx kill-port 5000
 
 ### Homepage
 
-![Homepage](https://images.pexels.com/photos/3965548/pexels-photo-3965548.jpeg)
+![Homepage](images/Home-Page.png)
 
-### Product Catalog
+### Product Page
 
-![Products](https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg)
+![Products](images/product-page.png)
 
-### Shopping Cart
+### Order Page
 
-![Cart](https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg)
+![Cart](images/myorder-page.png)
+
+### Login Page
+
+![Cart](images/Login-page.png)
+
+### Register Page
+
+![Cart](images/Register-page.png)
+
+### Admin Panel
+
+![Cart](images/Admin-Panel.png)
+
+### Orders Management
+
+![Cart](images/order-management.png)
+
+### Product Management
+
+![Cart](images/Product-Management.png)
+
 
 ## 📜 License
 
