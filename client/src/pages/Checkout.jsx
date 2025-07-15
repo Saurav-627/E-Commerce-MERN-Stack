@@ -5,7 +5,7 @@ import { CreditCard, MapPin, User } from "lucide-react";
 import { createOrder } from "../store/slices/orderSlice";
 import { clearCart } from "../store/slices/cartSlice";
 import toast from "react-hot-toast";
-import api from "../utils/api";
+import api, { API_BASE_URL } from "../utils/api";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -60,16 +60,18 @@ const Checkout = () => {
           shippingAddress,
           paymentMethod,
           amount: Math.round((total + (total >= 50 ? 0 : 9.99) + total * 0.08) * 100), // Convert to paisa
-          return_url: "http://localhost:5000/api/orders/payment/verify",
-          website_url: "http://localhost:3000",
+          // return_url: "http://localhost:5000/api/orders/payment/verify",
+          return_url: `${API_BASE_URL}/orders/payment/verify`,
+          // website_url: "http://localhost:3000",
+          website_url: import.meta.env.VITE_WEBSITE_URL,
           purchase_order_id: items
           .map((item) => item.product_id._id)
           .join("-"),
           purchase_order_name: items.map((item) => item.product_id.name).join(", "),
           customer_info: {
             name: shippingAddress.fullName,
-            email: user.email || "test@khalti.com",
-            phone: "9800000001", // Replace with actual user phone if available
+            email: user.email,
+            phone: "9800000001",
           },
         });
 
