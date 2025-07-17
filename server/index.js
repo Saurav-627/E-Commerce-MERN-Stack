@@ -73,6 +73,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
+app.get("/api/ping", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
