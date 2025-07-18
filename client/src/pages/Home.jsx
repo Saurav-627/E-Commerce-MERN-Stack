@@ -42,16 +42,16 @@ const Home = () => {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-purple-700 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-r from-blue-600 to-purple-700 text-white overflow-hidden my-3">
         <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+              <h1 className=" text-2xl md:text-5xl lg:text-6xl font-bold leading-tight">
                 Discover Amazing Products at
                 <span className="text-yellow-400"> Unbeatable Prices</span>
               </h1>
-              <p className="text-xl text-blue-100 max-w-lg">
+              <p className="text-lg md:text-xl text-blue-100 max-w-lg">
                 Shop from thousands of products across multiple categories.
                 Quality guaranteed, fast delivery, and exceptional customer
                 service.
@@ -84,9 +84,9 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <section className="max-w-7xl md:mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center md:mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Why Choose ShopHub?
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -94,7 +94,7 @@ const Home = () => {
             key benefits
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -116,19 +116,19 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-2">
               Featured Products
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-sm md:text-base">
               Discover our handpicked selection of premium products
             </p>
           </div>
           <Link
             to="/products"
-            className="text-blue-600 hover:text-blue-700 font-semibold flex items-center space-x-1"
+            className="text-blue-600 hover:text-blue-700 font-semibold flex items-center space-x-1 md:text-base text-xs w-20 md:w-auto"
           >
             <span>View All</span>
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4 hidden md:block" />
           </Link>
         </div>
 

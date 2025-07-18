@@ -31,7 +31,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Package className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900">ShopHub</span>
+            <span className="text-lg md:text-2xl font-bold text-gray-900">ShopHub</span>
           </Link>
 
           {/* Search Bar - Hidden on mobile */}
@@ -117,25 +117,26 @@ const Header = () => {
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <Link
-                    to="/login"
-                    className="text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+                <Link
+                  to="/login"
+                  className="text-sm md:text-base text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-sm md:text-base bg-blue-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </div>
+              
               )}
 
               {/* Mobile Menu Button */}
-              <button className="md:hidden p-2 text-gray-700">
+              {/* <button className="md:hidden p-2 text-gray-700">
                 <Menu className="h-6 w-6" />
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
